@@ -7,6 +7,7 @@ Created on 2016/09/22
 
 import glob
 
+from d_mcn_learn.document.Text import Text
 from bs4 import BeautifulSoup
 
 class HtmlDocument(object):
@@ -38,14 +39,22 @@ class HtmlDocument(object):
         このHtmlDocumentのtitleタグに指定されている内容を取得します。
         :return title: このHtmlデータのタイトル文字列（文字列）
         """
-        return self.bs.find('title').text
+        return Text( self.bs.find('title').text )
     
     def get_body_content(self):
         u"""
         このHtmlDocumentのbodyタグに指定されている内容を取得します。
         :return title: このHtmlデータのbody部の内容（文字列）
         """
-        return self.bs.find('body').text
+        return Text( self.bs.find('body').text )
     
     def get_content(self, selector):
-        return self.bs.select(selector).text
+        u"""
+        このHtmlDocumentから引数に指定されたcssセレクタを使ったタグを取得し、その内容を返却します。
+        :return title: このHtmlデータのbody部の内容（文字列）
+        """
+        result_text = []
+        element_list = self.bs.select(selector)
+        for element in element_list:
+            result_text.append( Text( element.text ) )
+        return result_text

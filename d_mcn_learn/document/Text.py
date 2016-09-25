@@ -4,6 +4,8 @@ Created on 2016/09/25
 @author: dk
 '''
 
+# -*- coding: utf-8 -*-
+
 import MeCab
 
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -13,10 +15,10 @@ class Text(object):
     classdocs
     '''
 
-
     def __init__(self, text):
         '''
         Constructor
+        :param text: Htmlテキスト
         '''
         self.origin_text = text
         
@@ -24,6 +26,9 @@ class Text(object):
         self.mecab_result  = self.mecab_trigger.parse(text)
         
         self.words = self._get_words()
+    
+    def __str__(self):
+        return self.origin_text
     
     def _get_words(self):
         words = []
@@ -43,3 +48,4 @@ class Text(object):
                 noun_words.append(word_info[0])
 
         return noun_words
+    

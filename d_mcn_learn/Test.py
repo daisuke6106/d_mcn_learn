@@ -4,10 +4,9 @@ Created on 2016/09/24
 @author: dk
 '''
 
-from d_mcn_learn.document.Text import Text 
+from d_mcn_learn.document.HtmlDocument import HtmlDocument 
 
 if __name__ == '__main__':
-    text = Text('テスト用文字列')
-    noun_words = text.get_noun()
-    print(noun_words)
+    html_document = HtmlDocument('<html><head><title>タイトル</title></head><body>内容</body></html>')
+    print(html_document.get_content("body")[0])
     
