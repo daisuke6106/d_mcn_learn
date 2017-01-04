@@ -49,3 +49,6 @@ class Text(object):
 
         return noun_words
     
+    def get_tf_idf(self, corpus):
+        vectorizer = TfidfVectorizer(analyzer=Text._get_words, min_df=1, max_df=50)
+        vectorizer.fit_transform(corpus)
