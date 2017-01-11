@@ -6,6 +6,7 @@ Created on 2016/09/25
 
 # -*- coding: utf-8 -*-
 
+import os
 import MeCab
 
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -14,7 +15,24 @@ class Text(object):
     '''
     classdocs
     '''
-
+    
+    @staticmethod
+    def get_text_by_dir(directory, filename):
+        textlist = []
+        for file in Text._fild_all_files(directory, filename):
+            filestr = ''
+            for line in open(file, 'r'):
+                filestr += line.rstrip()
+            textlist.append(Text(filestr))
+        return textlist
+    
+    @staticmethod
+    def _fild_all_files(directory, filename):
+        for root, _, files in os.walk(directory):
+            for file in files:
+                if filename == file :
+                    yield os.path.join(root, file)
+                    
     def __init__(self, text):
         '''
         Constructor
