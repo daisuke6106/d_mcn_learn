@@ -7,6 +7,7 @@ Created on 2016/09/25
 # -*- coding: utf-8 -*-
 
 import os
+import re
 import MeCab
 
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -18,35 +19,59 @@ class Text(object):
     
     @staticmethod
     def get_text_by_dir(directory, filename):
+        return Text._get_text_by_dir(directory, filename, lambda text : Text(text))
+    
+    @staticmethod
+    def _get_text_by_dir(directory, filename, creater_func):
         textlist = []
         for file in Text._fild_all_files(directory, filename):
             filestr = ''
             for line in open(file, 'r'):
                 filestr += line.rstrip()
-            textlist.append(Text(filestr))
+            textlist.append(creater_func(filestr))
         return textlist
     
     @staticmethod
     def _fild_all_files(directory, filename):
+        pattern = re.compile(filename)
         for root, _, files in os.walk(directory):
             for file in files:
-                if filename == file :
+                is_match = pattern.match(file)
+                if is_match :
                     yield os.path.join(root, file)
                     
     def __init__(self, text):
         '''
         Constructor
-        :param text: Htmlテキスト
+        :param text: テキスト
         '''
         self.origin_text = text
+    
+    def __str__(self):
+        return self.origin_text
+    
+    
+    
+class JpText(Text):
+    '''
+    classdocs
+    '''
+    
+    @staticmethod
+    def get_text_by_dir(directory, filename):
+        return Text._get_text_by_dir(directory, filename, lambda text : JpText(text))
+    
+    def __init__(self, text):
+        '''
+        Constructor
+        :param text: テキスト
+        '''
+        super().__init__(text)
         
         self.mecab_trigger = MeCab.Tagger('mecabrc')
         self.mecab_result  = self.mecab_trigger.parse(text)
         
         self.words = self._get_words()
-    
-    def __str__(self):
-        return self.origin_text
     
     def _get_words(self):
         words = []
