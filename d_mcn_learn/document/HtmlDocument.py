@@ -13,7 +13,7 @@ from bs4 import BeautifulSoup
 class HtmlDocument(object):
     
     @staticmethod
-    def getHtmlByDir(path):
+    def get_html_by_dir(path):
         u"""
         引数に指定されたパスからHtmlファイルを元に複数のHtmlDocumentを生成し、返却します。
         :return htmlList: HtmlDocumentデータリスト
