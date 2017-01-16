@@ -21,10 +21,12 @@ class Array(object):
     def sigmoid(self):
         return 1 / (1 + np.exp(-self.arrays))
     
-    def sigmoid_plot(self):
+    def sigmoid_plot(self, y_min, y_max, x_min, x_max):
         x = self.arrays
         y = self.sigmoid()
         plt.plot(x, y)
+        plt.ylim(y_min, y_max)
+        plt.xlim(x_min, x_max)
         plt.show()
     
     @staticmethod
