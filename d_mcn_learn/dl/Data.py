@@ -14,6 +14,10 @@ class Array(object):
         Constructor
         '''
         self.arrays = arrays
+
+    @staticmethod
+    def create_array(array):
+        return Array(np.array(array))
     
     @staticmethod
     def sample_data(from_num = -1.0, to_num = 1.0, inc = 0.1):
@@ -50,6 +54,15 @@ class Array(object):
              行列の形状を取得する。
         """
         return self.arrays.shape
+        
+    def softmax(self):
+        u""" 
+             ソフトマックス関数の実施結果を返却する。
+        """
+        exp_a = np.exp(self.arrays)
+        sum_exp_a = np.sum(exp_a)
+        y = exp_a / sum_exp_a
+        return y
         
 class ResultArrays(object):
     '''
